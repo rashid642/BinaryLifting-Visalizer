@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Binary Lifting Visualizer</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Binary Lifting Visualizer</h1>
+  </header>
+
+  <main class="container">
+    <section class="input-section">
+      <div class="input-box">
+        <label for="treeInput">Tree Input</label>
+        <p class="helper-text">Format: First line contains n and root. Next n-1 lines contain edges in form u v.</p>
+        <textarea id="treeInput" placeholder="Example:
+5 1
+1 2
+1 3
+3 4
+3 5"></textarea>
+      </div>
+
+      <div class="input-box">
+        <label for="queryInput">LCA Query Input</label>
+        <p class="helper-text">Format: Two integers representing the nodes to find LCA for.</p>
+        <textarea id="queryInput" placeholder="Example:
+4 5"></textarea>
+      </div>
+    </section>
+
+    <section class="visual-section">
+      <div class="canvas-wrapper">
+        <canvas id="treeCanvas" width="1200" height="800"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/index.js"></script>
+</body>
+</html>
