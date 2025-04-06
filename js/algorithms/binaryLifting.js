@@ -14,7 +14,6 @@ export class BinaryLifting {
   
     build() {
       const root = this.tree.getRoot();
-      const visited = new Set();
       const queue = [[root, -1]];
   
       while (queue.length > 0) {
@@ -54,10 +53,12 @@ export class BinaryLifting {
     }
   
     async animateVisit(value, color, message) {
+      for (let nodeId in this.tree.nodes) {
+        this.tree.setNodeColor(nodeId, '#D3D3D3'); 
+      }
       this.tree.setNodeColor(value, color);
-      this.tree.clearTree();
-      this.tree.drawTree();
-      this.logger.addLog(message);
+      this.tree.drawTree(false)
+      this.logger.log(message);
       await this.sleep(this.delay);
     }
   
@@ -72,6 +73,8 @@ export class BinaryLifting {
     }
   
     async findLCA(u, v) {
+      let initalU = u;
+      let intialV = v;
       await this.animateVisit(u, "red", `Start from node ${u}`);
       await this.animateVisit(v, "red", `Start from node ${v}`);
   
@@ -86,8 +89,8 @@ export class BinaryLifting {
   
       for (let i = this.m - 1; i >= 0; i--) {
         if (this.dp[u][i] !== this.dp[v][i]) {
-          await this.animateVisit(u, "yellow", `u jumps from ${u} to ${this.dp[u][i]}`);
-          await this.animateVisit(v, "yellow", `v jumps from ${v} to ${this.dp[v][i]}`);
+          await this.animateVisit(u, "yellow", `Node ${initalU} jumps from ${u} to ${this.dp[u][i]}`);
+          await this.animateVisit(v, "yellow", `Node ${intialV} jumps from ${v} to ${this.dp[v][i]}`);
           u = this.dp[u][i];
           v = this.dp[v][i];
         }

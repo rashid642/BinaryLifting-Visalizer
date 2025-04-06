@@ -29,12 +29,14 @@ export class Tree {
     return this.nodeMap.get(value);
   }
 
-  drawTree() {
+  drawTree(shouldCalculateCoordinates = true) {
     this.visualizer.clearCanvas();
-
-    const { width, height } = this.calculation.layoutTree(this.root);
-    this.visualizer.resizeCanvas(width, height);
-
+  
+    if (shouldCalculateCoordinates) {
+      const { width, height } = this.calculation.layoutTree(this.root);
+      this.visualizer.resizeCanvas(width, height);
+    }
+  
     // Draw edges first
     const visited = new Set();
     for (let node of this.nodeMap.values()) {
@@ -50,13 +52,14 @@ export class Tree {
         }
       }
     }
-
+  
     // Draw nodes on top of lines
     for (let node of this.nodeMap.values()) {
       const pos = node.getPosition();
       this.visualizer.createCircle(pos.x, pos.y, this.radius, node.style.color, node.value);
     }
   }
+  
 
   clearTree() {
     this.visualizer.clearCanvas();

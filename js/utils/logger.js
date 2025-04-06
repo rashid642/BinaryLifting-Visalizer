@@ -5,7 +5,7 @@ export class Logger {
   
     log(message) {
       const entry = document.createElement('div');
-      entry.textContent = message;
+      entry.textContent = '- ' + message;
       this.logContainer.appendChild(entry);
       this.logContainer.scrollTop = this.logContainer.scrollHeight;
     }

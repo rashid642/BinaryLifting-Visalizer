@@ -88,3 +88,26 @@ canvas {
   display: block;
   margin: 0 auto;
 }
+
+.input-box.log-panel {
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 14px;
+  color: #333;
+  padding-right: 5px;
+}
+
+.input-box.log-panel h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+
+#logList {
+  list-style: none;
+  padding-left: 15px;
+  margin: 0;
+}
+
+#logList li {
+  margin-bottom: 5px;
+}
