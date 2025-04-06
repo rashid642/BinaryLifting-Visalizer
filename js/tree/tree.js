@@ -37,7 +37,6 @@ export class Tree {
       this.visualizer.resizeCanvas(width, height);
     }
   
-    // Draw edges first
     const visited = new Set();
     for (let node of this.nodeMap.values()) {
       visited.add(node);
@@ -53,7 +52,6 @@ export class Tree {
       }
     }
   
-    // Draw nodes on top of lines
     for (let node of this.nodeMap.values()) {
       const pos = node.getPosition();
       this.visualizer.createCircle(pos.x, pos.y, this.radius, node.style.color, node.value);

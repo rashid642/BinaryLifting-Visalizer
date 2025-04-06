@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Binary Lifting Visualizer</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
   <header>
     <h1>Binary Lifting Visualizer</h1>
@@ -12,45 +14,57 @@
 
   <main class="container">
     <section class="input-section">
-        <div class="input-box">
-          <label for="treeInput">Tree Input</label>
-          <p class="helper-text">Format: First line contains n and root. Next n-1 lines contain edges in form u v.</p>
-          <textarea id="treeInput" placeholder="Example:
-      5 1
-      1 2
-      1 3
-      3 4
-      3 5"></textarea>
-        </div>
-      
-        <div class="input-box">
-          <label for="queryInput">LCA Query Input</label>
-          <p class="helper-text">Format: Two integers representing the nodes to find LCA for.</p>
-          <textarea id="queryInput" placeholder="Example:
-      4 5"></textarea>
-        </div>
-      
-        <div class="input-box">
-          <label for="delaySlider">Visualization Delay (ms)</label>
-          <input type="range" id="delaySlider" min="100" max="2000" step="100" value="500" />
-          <span id="delayValue">500ms</span>
-        </div>
-      
-        <div class="input-box log-panel">
-          <h2>Logs</h2>
-          <ul id="logList"></ul>
-        </div>
-      </section>
-      
+      <div class="input-box">
+        <label for="treeInput">Tree Input</label>
+        <p class="helper-text">Format: First line contains n and root. Next n-1 lines contain edges in form u v.</p>
+        <textarea id="treeInput" placeholder="Example:
+5 1
+1 2
+1 3
+3 4
+3 5"></textarea>
+        <!-- <div class="input-box with-error"> -->
+          <button id="generateTreeBtn">Generate Tree</button>
+          <span id="error" class="error-message"></span>
+        <!-- </div> -->
+      </div>
+
+      <div class="input-box">
+        <label for="randomTreeSize">Generate Random Tree</label>
+        <input type="number" id="randomSize" min="1" max="1000" placeholder="Enter number of nodes" />
+        <button id="generateRandomBtn">Generate Random Tree</button>
+        <span id="randomError" class="error-message"></span>
+      </div>
+
+      <div class="input-box">
+        <label for="lcaInput">Find LCA</label>
+        <p class="helper-text">Format: Two node numbers separated by space (e.g., 4 5)</p>
+        <input type="text" id="lcaInput" placeholder="e.g. 4 5" />
+        <button id="findLcaBtn">Find LCA</button>
+        <span id="lcaError" class="error-message"></span>
+      </div>
+
+
+      <div class="input-box">
+        <label for="delaySlider">Visualization Delay (ms)</label>
+        <input type="range" id="delaySlider" min="100" max="2000" step="100" value="500" />
+        <span id="delayValue">500ms</span>
+      </div>
+
+      <div class="input-box log-panel">
+        <h2>Logs</h2>
+        <ul id="logList"></ul>
+      </div>
+    </section>
 
     <section class="visual-section">
       <div class="canvas-wrapper">
         <canvas id="treeCanvas" width="1200" height="800"></canvas>
       </div>
-      
     </section>
   </main>
 
   <script type="module" src="js/index.js"></script>
 </body>
+
 </html>

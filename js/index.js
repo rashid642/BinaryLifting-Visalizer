@@ -1,61 +1,117 @@
 import { Visualizer } from './visualizer.js';
 import { Tree } from './tree/tree.js';
-import { Logger } from './utils/logger.js';
+import { parseTreeInput } from './utils/utils.js';
+import { isValidEdgeFormat, isValidNodeRange, hasCycle, isConnected } from './tree/validation.js';
+import { generateRandomTree } from './utils/randomTreeGenerator.js';
 import { BinaryLifting } from './algorithms/binaryLifting.js';
+import { Logger } from './logger/logger.js';
 
 let visualizer = null;
 let tree = null;
-let logger = new Logger('logList');
-let delayTime = 1000;
+let logger = null;
 
-// Setup delay slider
-const delaySlider = document.getElementById('delaySlider');
-const delayValue = document.getElementById('delayValue');
+let treeInput, randomInput, errorDisplay, randomTreeErrorDisplay;
+let findLcaBtn, lcaInput, lcaErrorDisplay, delaySlider, delayValue;
 
-delaySlider.addEventListener('input', () => {
-  delayTime = parseInt(delaySlider.value);
-  delayValue.textContent = `${delayTime}ms`;
+window.addEventListener('DOMContentLoaded', () => {
+  visualizer = new Visualizer('treeCanvas', 1000, 800);
+  logger = new Logger('logList');
+
+  treeInput = document.getElementById('treeInput');
+  randomInput = document.getElementById('randomSize');
+  errorDisplay = document.getElementById('error');
+  randomTreeErrorDisplay = document.getElementById('randomError');
+  findLcaBtn = document.getElementById('findLcaBtn');
+  lcaInput = document.getElementById('lcaInput');
+  lcaErrorDisplay = document.getElementById('lcaError');
+  delaySlider = document.getElementById('delaySlider');
+  delayValue = document.getElementById('delayValue');
+
+  document.getElementById('generateTreeBtn').addEventListener('click', handleTreeInput);
+  document.getElementById('generateRandomBtn').addEventListener('click', handleRandomTreeGeneration);
+  findLcaBtn.addEventListener('click', handleLcaFind);
+  delaySlider.addEventListener('input', handleDelaySlider);
 });
 
-window.addEventListener('DOMContentLoaded', async () => {
-  visualizer = new Visualizer('treeCanvas', 1200, 1000);
-  tree = new Tree('1', 20, visualizer, 25);
+function handleTreeInput() {
+  errorDisplay.textContent = '';
+  logger.clear();
 
-  // Tree structure (20 nodes)
-  const edges = [
-    ['1', '2'],
-    ['1', '3'],
-    ['2', '4'],
-    ['2', '5'],
-    ['3', '6'],
-    ['3', '7'],
-    ['4', '8'],
-    ['4', '9'],
-    ['5', '10'],
-    ['5', '11'],
-    ['6', '12'],
-    ['6', '13'],
-    ['7', '14'],
-    ['7', '15'],
-    ['8', '16'],
-    ['9', '17'],
-    ['10', '18'],
-    ['11', '19'],
-    ['12', '20']
-  ];
+  const rawInput = treeInput.value.trim();
+  if (!rawInput) return (errorDisplay.textContent = 'Input cannot be empty.');
 
-  // Add edges and draw tree
+  if (!isValidEdgeFormat(rawInput)) {
+    errorDisplay.textContent = 'Invalid input format. All values must be numbers.';
+    return;
+  }
+
+  const { n, root, edges } = parseTreeInput(rawInput);
+
+  if (!isValidNodeRange(edges, n)) {
+    errorDisplay.textContent = 'One or more nodes are out of range.';
+    return;
+  }
+
+  if (hasCycle(n, edges)) {
+    errorDisplay.textContent = 'Cycle detected. Input must form a tree.';
+    return;
+  }
+
+  if (!isConnected(n, edges, root)) {
+    errorDisplay.textContent = 'Tree is not fully connected.';
+    return;
+  }
+
+  tree = new Tree(root.toString(), n, visualizer, 25);
   edges.forEach(([u, v]) => tree.addEdge(u, v));
   tree.clearTree();
-  tree.drawTree();
+  tree.drawTree(true);
+}
 
-  // Run Binary Lifting
+function handleRandomTreeGeneration() {
+  randomTreeErrorDisplay.textContent = '';
   logger.clear();
-  const lifting = new BinaryLifting(tree, logger, delayTime);
 
-  // Choose any two nodes to find their LCA
-  const u = '17';
-  const v = '20';
-  const lca = await lifting.findLCA(u, v);
+  const size = parseInt(randomInput.value);
+  if (isNaN(size) || size < 1 || size > 1000) {
+    randomTreeErrorDisplay.textContent = 'Please enter a valid number greater than 0 and less than 1000';
+    return;
+  }
+
+  const { edges, root } = generateRandomTree(size);
+  tree = new Tree(root.toString(), size, visualizer, 25);
+  edges.forEach(([u, v]) => tree.addEdge(u, v));
+  tree.clearTree();
+  tree.drawTree(true);
+}
+
+async function handleLcaFind() {
+  lcaErrorDisplay.textContent = '';
+  logger.clear();
+
+  if (!tree) {
+    lcaErrorDisplay.textContent = 'Please generate a tree first.';
+    return;
+  }
+
+  const input = lcaInput.value.trim().split(' ').map(Number);
+  if (input.length !== 2 || input.some(isNaN)) {
+    lcaErrorDisplay.textContent = 'Please enter two valid node numbers.';
+    return;
+  }
+
+  const [u, v] = input;
+  if (!tree.nodeMap.has(u.toString()) || !tree.nodeMap.has(v.toString())) {
+    lcaErrorDisplay.textContent = 'Both nodes must exist in the tree.';
+    return;
+  }
+
+  const delay = parseInt(delaySlider.value);
+  const lifting = new BinaryLifting(tree, logger, delay);
+  const lca = await lifting.findLCA(u.toString(), v.toString());
   logger.log(`✅ LCA of ${u} and ${v} is ${lca}`);
-});
+}
+
+function handleDelaySlider() {
+  delayValue.textContent = `${delaySlider.value}ms`;
+}

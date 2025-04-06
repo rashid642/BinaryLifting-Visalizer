@@ -111,3 +111,55 @@ canvas {
 #logList li {
   margin-bottom: 5px;
 }
+
+/* Style for the Generate Tree button */
+#generateTreeBtn #generateRandomBtn {
+  padding: 10px 20px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#generateTreeBtn:hover {
+  background-color: #d5d5d5;
+}
+
+/* Container to align button and error message */
+.with-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Error message style */
+.error-message {
+  color: red;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.input-box button {
+  padding: 8px 12px;
+  margin-top: 8px;
+  border: none;
+  background-color: #ccc;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.input-box button:hover {
+  background-color: #bbb;
+}
+
+.error-text {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+

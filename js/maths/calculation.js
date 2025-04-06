@@ -43,7 +43,7 @@ export class Calculation {
     }
   
     assignCoordinates() {
-      const levels = Array.from(this.levelMap.keys()).sort((a, b) => b - a); // bottom-up
+      const levels = Array.from(this.levelMap.keys()).sort((a, b) => b - a); 
   
       for (const level of levels) {
         const nodes = this.levelMap.get(level);
