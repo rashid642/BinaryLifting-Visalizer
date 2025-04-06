@@ -1,4 +1,3 @@
-/* General page layout */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -7,7 +6,6 @@ body {
   overflow: hidden;
 }
 
-/* Header styling */
 header {
   text-align: center;
   background-color: #f2f2f2;
@@ -20,13 +18,11 @@ h1 {
   font-size: 24px;
 }
 
-/* Main container split layout */
 .container {
   display: flex;
-  height: calc(100vh - 60px); /* Account for header height */
+  height: calc(100vh - 60px); 
 }
 
-/* Left input panel */
 .input-section {
   width: 30%;
   padding: 20px;
@@ -68,7 +64,6 @@ h1 {
   margin: 4px 0 8px;
 }
 
-/* Right visual section */
 .visual-section {
   width: 70%;
   padding: 10px;
@@ -112,7 +107,6 @@ canvas {
   margin-bottom: 5px;
 }
 
-/* Style for the Generate Tree button */
 #generateTreeBtn #generateRandomBtn {
   padding: 10px 20px;
   background-color: #e0e0e0;
@@ -127,14 +121,12 @@ canvas {
   background-color: #d5d5d5;
 }
 
-/* Container to align button and error message */
 .with-error {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Error message style */
 .error-message {
   color: red;
   font-size: 13px;
