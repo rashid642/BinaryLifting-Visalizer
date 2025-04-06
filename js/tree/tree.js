@@ -73,6 +73,13 @@ export class Tree {
     node.style.updateYCoordinate(y);
   }
 
+  resetAllNodeColors() {
+    for (let node of this.nodeMap.values()) {
+      node.setColor('#D3D3D3');
+    }
+    this.drawTree(false); // Redraw without recalculating layout
+  }
+
   setNodeColor(value, color) {
     const node = this.getNode(value);
     node.setColor(color);

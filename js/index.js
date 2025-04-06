@@ -108,6 +108,7 @@ async function handleLcaFind() {
 
   const delay = parseInt(delaySlider.value);
   const lifting = new BinaryLifting(tree, logger, delay);
+  tree.resetAllNodeColors()
   const lca = await lifting.findLCA(u.toString(), v.toString());
   logger.log(`✅ LCA of ${u} and ${v} is ${lca}`);
 }
